@@ -12,6 +12,14 @@ class App extends Component {
             { id: 4, value: 0 },
         ],
     };
+    constructor() {
+        super();
+        console.log("App-Constructor");
+    }
+    componentDidMount() {
+        // best place for ajax call to get data from server
+        console.log("App-Mounted");
+    }
     handleReset = () => {
         const counters = this.state.counters.map((counter) => {
             counter.value = 0;
@@ -27,12 +35,19 @@ class App extends Component {
         this.setState({ counters });
         console.log(this.state.counters[index]);
     };
+    handleDecrement = (counter) => {
+        const counters = [...this.state.counters];
+        const index = this.state.counters.indexOf(counter);
+        counters[index] = { ...counter };
+        counters[index].value--;
+        this.setState({ counters });
+    };
     handleDelete = (counterId) => {
         const counters = this.state.counters.filter((c) => c.id !== counterId);
         this.setState({ counters });
-        console.log("handle delete clicked", counterId);
     };
     render() {
+        console.log("App - Rendered");
         return (
             <React.Fragment>
                 <Navbar
@@ -45,6 +60,7 @@ class App extends Component {
                         counters={this.state.counters}
                         onReset={this.handleReset}
                         onIncrement={this.handleIncrement}
+                        onDecrement={this.handleDecrement}
                         onDelete={this.handleDelete}
                     />
                 </main>
